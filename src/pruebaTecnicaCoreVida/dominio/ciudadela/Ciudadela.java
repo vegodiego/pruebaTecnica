@@ -3,9 +3,11 @@ package pruebaTecnicaCoreVida.dominio.ciudadela;
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.*;
 
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -125,6 +127,54 @@ public class Ciudadela {
                 this.ordenes.get(i).setEstado(new Estado("finalizado"));
                 System.out.println("Estado de la orden con Id " + this.ordenes.get(i).getId() + "actualizado (finalizado)");
             }
+        }
+    }
+
+    public void generarInforme(String tipoDeInforme){
+
+        String estado;
+
+        switch (tipoDeInforme) {
+            case "4":
+                estado = "pendiente";
+                break;
+            case "5":
+                estado = "en progreso";
+                break;
+            default:
+                estado = "finalizado";
+        }
+
+        List<Integer> listaNumeroDeConstrucciones = this.calcularCantidesParaElInforme(estado);
+        List<String> construcciones  = Arrays.asList("casas", "lagos", "canchas de futbol", "edificios", "gimnasios");
+        this.crearInforme(estado, listaNumeroDeConstrucciones, construcciones);
+    }
+
+    private List<Integer> calcularCantidesParaElInforme(String estado){
+        List<Integer> listaNumeroDeConstrucciones = new ArrayList<>();
+        for (int i = 0; i < 5 ; i++) {
+            int contador = 0;
+            for (int j = 0; j < this.ordenes.size() ; j++) {
+                if(this.ordenes.get(j).getEstado().getValue().equals(estado) && this.ordenes.get(j).getIdConstrucion() == i){
+                    contador++;
+                }
+            }
+            listaNumeroDeConstrucciones.add(contador);
+        }
+        return listaNumeroDeConstrucciones;
+    }
+
+    private void crearInforme(String estado, List<Integer> listaNumeroDeConstrucciones, List<String> construcciones) {
+        try {
+            PrintWriter writer = new PrintWriter("src/informes/informe.txt", "UTF-8");
+            writer.println("Construcciones con estado " + estado + ":");
+            for (int i = 0; i < construcciones.size(); i++) {
+                writer.println(construcciones.get(i) + ": " + listaNumeroDeConstrucciones.get(i));
+            }
+            writer.close();
+            System.out.println("Informe generado exitosamente en el directorio informes");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
