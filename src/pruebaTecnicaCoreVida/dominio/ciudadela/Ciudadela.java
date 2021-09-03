@@ -95,6 +95,39 @@ public class Ciudadela {
         this.fechaTerminacion = new FechaTerminacion(fechaTerminacion);
     }
 
+    public void actualizarEstados(){
+        LocalDateTime fechaActual = LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        int horaActual = fechaActual.getHour();
+
+        if(horaActual < 12){
+            this.actualizacionEnLaMañana(fechaActual, formato);
+        }
+
+        if(horaActual > 15){
+            this.actualizacionEnLaNoche(fechaActual, formato);
+        }
+        System.out.println("Actualizacion de estados completada");
+    }
+
+    private void actualizacionEnLaMañana(LocalDateTime fechaActual, DateTimeFormatter formato){
+        for (int i = 0; i < this.ordenes.size() ; i++) {
+            if(this.ordenes.get(i).getFechaInicio().getValue().format(formato).equals(fechaActual.format(formato)) && this.ordenes.get(i).getEstado().getValue().equals("pendiente")){
+                this.ordenes.get(i).setEstado(new Estado("en progreso"));
+                System.out.println("Estado de la orden con Id " + this.ordenes.get(i).getId() + " actualizado (en progreso)");
+            }
+        }
+    }
+
+    private void actualizacionEnLaNoche(LocalDateTime fechaActual, DateTimeFormatter formato){
+        for (int i = 0; i < this.ordenes.size() ; i++) {
+            if(this.ordenes.get(i).getFechaTerminacion().getValue().format(formato).equals(fechaActual.format(formato)) && this.ordenes.get(i).getEstado().getValue().equals("en progreso")){
+                this.ordenes.get(i).setEstado(new Estado("finalizado"));
+                System.out.println("Estado de la orden con Id " + this.ordenes.get(i).getId() + "actualizado (finalizado)");
+            }
+        }
+    }
+
 
 
 
