@@ -16,6 +16,7 @@ public class Ciudadela {
     private List<Construccion> construcciones;
     private List<Material> materiales;
     private List<Orden> ordenes;
+    private List<Informe> informes;
     private FechaTerminacion fechaTerminacion;
 
     private static Integer ultimoId = -1;
@@ -26,6 +27,7 @@ public class Ciudadela {
         this.construcciones = construcciones;
         this.materiales = materiales;
         this.ordenes = new ArrayList<>();
+        this.informes = new ArrayList<>();
         this.fechaTerminacion = new FechaTerminacion(LocalDateTime.now());
     }
 
@@ -130,7 +132,7 @@ public class Ciudadela {
         }
     }
 
-    public void generarInforme(String tipoDeInforme){
+    public void agregarInforme(String tipoDeInforme){
 
         String estado;
 
@@ -165,25 +167,34 @@ public class Ciudadela {
     }
 
     private void crearInforme(String estado, List<Integer> listaNumeroDeConstrucciones, List<String> construcciones) {
+        List<ConstruccionEnInforme> construccionesEnInforme = new ArrayList<>();
+        int total = 0;
+        for (int i = 0; i < construcciones.size(); i++) {
+             ConstruccionEnInforme construccionEnInforme = new ConstruccionEnInforme(construcciones.get(i), listaNumeroDeConstrucciones.get(i));
+             construccionesEnInforme.add(construccionEnInforme);
+             total += listaNumeroDeConstrucciones.get(i);
+        }
+        Informe nuevoInforme = new Informe(new Estado(estado), construccionesEnInforme, new Total(total));
+        this.informes.add(nuevoInforme);
+
+
+        this.generarInforme(estado, nuevoInforme);
+    }
+
+    private void generarInforme(String estado, Informe nuevoInforme) {
         try {
-            PrintWriter writer = new PrintWriter("src/informes/informe.txt", "UTF-8");
+            PrintWriter writer = new PrintWriter("src/pruebaTecnicaCoreVida/informes/informe"+nuevoInforme.getId()+".txt", "UTF-8");
             writer.println("Construcciones con estado " + estado + ":");
-            for (int i = 0; i < construcciones.size(); i++) {
-                writer.println(construcciones.get(i) + ": " + listaNumeroDeConstrucciones.get(i));
+            for (int i = 0; i < nuevoInforme.getConstruccionesEnInforme().size(); i++) {
+                writer.println(nuevoInforme.getConstruccionesEnInforme().get(i).getConstruccion() + ": " + nuevoInforme.getConstruccionesEnInforme().get(i).getCantidad());
             }
+            writer.println("Total de construcciones: " + nuevoInforme.getTotal().getValue());
             writer.close();
             System.out.println("Informe generado exitosamente en el directorio informes");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
 
 
     public Integer getId() {
@@ -200,6 +211,10 @@ public class Ciudadela {
 
     public List<Orden> getOrdenes() {
         return ordenes;
+    }
+
+    public List<Informe> getInformes() {
+        return informes;
     }
 
     public FechaTerminacion getFechaTerminacion() {

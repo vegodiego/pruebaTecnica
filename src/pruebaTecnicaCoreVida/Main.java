@@ -43,5 +43,38 @@ public class Main {
 
         //creacion de la ciudadela
         Ciudadela ciudadela = new Ciudadela(construcciones, materiales);
+
+        ciudadela.agregarOrden(0, 100,200);
+
+        System.out.println(ciudadela.getFechaTerminacion().getValue());
+        System.out.println(ciudadela.getMateriales().get(0).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(0).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(1).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(1).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(2).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(2).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(3).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(3).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(4).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(4).getCantidad().getValue());
+
+
+        ciudadela.agregarOrden(0, 101,201);
+
+        System.out.println(ciudadela.getFechaTerminacion().getValue());
+        System.out.println(ciudadela.getMateriales().get(0).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(0).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(1).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(1).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(2).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(2).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(3).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(3).getCantidad().getValue());
+        System.out.println(ciudadela.getMateriales().get(4).getNombre().getValue());
+        System.out.println(ciudadela.getMateriales().get(4).getCantidad().getValue());
+
+        ciudadela.actualizarEstados();
+
+        ciudadela.agregarInforme("4");
     }
 }
