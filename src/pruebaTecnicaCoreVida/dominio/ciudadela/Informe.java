@@ -4,9 +4,10 @@ import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.ConstruccionEnInfo
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.Estado;
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.Total;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Informe {
+public class Informe implements Serializable {
     private Integer id;
     private Estado estado;
     private List<ConstruccionEnInforme> construccionesEnInforme;

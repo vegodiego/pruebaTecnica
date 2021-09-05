@@ -3,11 +3,13 @@ package pruebaTecnicaCoreVida.dominio.ciudadela;
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.*;
 
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,26 +34,25 @@ public class Ciudadela {
     }
 
     public void agregarOrden(int construccionId, int coordenadaX, int coordenadaY){
-        Construccion construccion = this.obtenerConstruccionPorId(construccionId);
+        var construccion = this.obtenerConstruccionPorId(construccionId);
         boolean validacionDeMaterial = this.validarCantidadDeMaterial(construccion);
         boolean validacionDeCoordenadas = this.validarCoordenadas(coordenadaX, coordenadaY);
 
         if(validacionDeCoordenadas && validacionDeMaterial){
-            System.out.println("Solicitud de Construccion creada");
+            System.out.println("\nSolicitud de Construccion creada");
             LocalDateTime fechaInicialDeLaOrden = this.crearFechaDeInicioDeLaOrden();
             LocalDateTime fechaDeTerminacionDeLaOrden = fechaInicialDeLaOrden.plusDays(construccion.getDias().getValue()+1);
-            Orden nuevaOrden = new Orden(construccionId, new CoordenadaX(coordenadaX), new CoordenadaY(coordenadaY), new FechaInicio(fechaInicialDeLaOrden), new FechaTerminacion(fechaDeTerminacionDeLaOrden));
+            var nuevaOrden = new Orden(construccionId, new CoordenadaX(coordenadaX), new CoordenadaY(coordenadaY), new FechaInicio(fechaInicialDeLaOrden), new FechaTerminacion(fechaDeTerminacionDeLaOrden));
             this.ordenes.add(nuevaOrden);
             this.notificarCreacionDeOrden(nuevaOrden);
             this.actualizarInformacion(construccion, fechaDeTerminacionDeLaOrden);
         }else {
-            System.out.println("Solicitud de Construccion no creada (falta de material o coordenadas no validas)");
+            System.out.println("\nSolicitud de Construccion no creada (falta de material o coordenadas no validas)");
         }
     }
 
-    private Construccion obtenerConstruccionPorId(int construccionId){
-        Construccion construccion = this.construcciones.stream().filter(i -> i.getId() == construccionId).collect(Collectors.toList()).get(0);
-        return  construccion;
+    private Construccion obtenerConstruccionPorId(int construccionId){ ;
+        return this.construcciones.stream().filter(i -> i.getId() == construccionId).collect(Collectors.toList()).get(0);
     }
 
     private Boolean validarCantidadDeMaterial(Construccion construccion){
@@ -73,15 +74,15 @@ public class Ciudadela {
         if(this.ordenes.isEmpty()){
             return (LocalDateTime.now().plusDays(1));
         }
-        Orden ultimaOrden = this.ordenes.get(this.ordenes.size()-1);
+        var ultimaOrden = this.ordenes.get(this.ordenes.size()-1);
         return ultimaOrden.getFechaTerminacion().getValue().plusDays(1);
     }
 
     private  void notificarCreacionDeOrden(Orden nuevaOrden){
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        System.out.println("Orden de Construccion creada");
-        System.out.println("Orden: ");
-        System.out.println("Id de la orden: " + nuevaOrden.getId());
+        var formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        System.out.println("\nOrden de Construccion creada");
+        System.out.println("\nOrden: ");
+        System.out.println("\nId de la orden: " + nuevaOrden.getId());
         System.out.println("Id de la construccion: " + nuevaOrden.getIdConstrucion());
         System.out.println("Coordenadas (X,Y): " + "(" + nuevaOrden.getCoordenadaX().getValue()+ ", " + nuevaOrden.getCoordenadaY().getValue() + ")");
         System.out.println("Fecha de inicio: " + nuevaOrden.getFechaInicio().getValue().format(formato));
@@ -100,34 +101,34 @@ public class Ciudadela {
     }
 
     public void actualizarEstados(){
-        LocalDateTime fechaActual = LocalDateTime.now();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        var fechaActual = LocalDateTime.now();
+        var formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         int horaActual = fechaActual.getHour();
 
         if(horaActual < 12){
             this.actualizacionEnLaMañana(fechaActual, formato);
         }
 
-        if(horaActual > 15){
+        if(horaActual >= 18){
             this.actualizacionEnLaNoche(fechaActual, formato);
         }
-        System.out.println("Actualizacion de estados completada");
+        System.out.println("\nActualizacion de estados completada");
     }
 
     private void actualizacionEnLaMañana(LocalDateTime fechaActual, DateTimeFormatter formato){
-        for (int i = 0; i < this.ordenes.size() ; i++) {
-            if(this.ordenes.get(i).getFechaInicio().getValue().format(formato).equals(fechaActual.format(formato)) && this.ordenes.get(i).getEstado().getValue().equals("pendiente")){
-                this.ordenes.get(i).setEstado(new Estado("en progreso"));
-                System.out.println("Estado de la orden con Id " + this.ordenes.get(i).getId() + " actualizado (en progreso)");
+        for (Orden orden: this.ordenes) {
+            if(orden.getFechaInicio().getValue().format(formato).equals(fechaActual.format(formato)) && orden.getEstado().getValue().equals("pendiente")){
+                orden.setEstado(new Estado("en progreso"));
+                System.out.println("Estado de la orden con Id " + orden.getId() + " actualizado (en progreso)");
             }
         }
     }
 
     private void actualizacionEnLaNoche(LocalDateTime fechaActual, DateTimeFormatter formato){
-        for (int i = 0; i < this.ordenes.size() ; i++) {
-            if(this.ordenes.get(i).getFechaTerminacion().getValue().format(formato).equals(fechaActual.format(formato)) && this.ordenes.get(i).getEstado().getValue().equals("en progreso")){
-                this.ordenes.get(i).setEstado(new Estado("finalizado"));
-                System.out.println("Estado de la orden con Id " + this.ordenes.get(i).getId() + "actualizado (finalizado)");
+        for (Orden orden: this.ordenes) {
+            if(orden.getFechaTerminacion().getValue().format(formato).equals(fechaActual.format(formato)) && orden.getEstado().getValue().equals("en progreso")){
+                orden.setEstado(new Estado("finalizado"));
+                System.out.println("Estado de la orden con Id " + orden.getId() + "actualizado (finalizado)");
             }
         }
     }
@@ -148,51 +149,77 @@ public class Ciudadela {
         }
 
         List<Integer> listaNumeroDeConstrucciones = this.calcularCantidesParaElInforme(estado);
-        List<String> construcciones  = Arrays.asList("casas", "lagos", "canchas de futbol", "edificios", "gimnasios");
-        this.crearInforme(estado, listaNumeroDeConstrucciones, construcciones);
+        this.crearInforme(estado, listaNumeroDeConstrucciones);
     }
 
     private List<Integer> calcularCantidesParaElInforme(String estado){
         List<Integer> listaNumeroDeConstrucciones = new ArrayList<>();
-        for (int i = 0; i < 5 ; i++) {
-            int contador = 0;
-            for (int j = 0; j < this.ordenes.size() ; j++) {
-                if(this.ordenes.get(j).getEstado().getValue().equals(estado) && this.ordenes.get(j).getIdConstrucion() == i){
+        for (Construccion construccion: this.construcciones) {
+            var contador = 0;
+            for (Orden orden: this.ordenes) {
+                if(orden.getEstado().getValue().equals(estado) && orden.getIdConstrucion().equals(construccion.getId())){
                     contador++;
                 }
             }
             listaNumeroDeConstrucciones.add(contador);
         }
+
         return listaNumeroDeConstrucciones;
     }
 
-    private void crearInforme(String estado, List<Integer> listaNumeroDeConstrucciones, List<String> construcciones) {
+    private void crearInforme(String estado, List<Integer> listaNumeroDeConstrucciones) {
         List<ConstruccionEnInforme> construccionesEnInforme = new ArrayList<>();
-        int total = 0;
-        for (int i = 0; i < construcciones.size(); i++) {
-             ConstruccionEnInforme construccionEnInforme = new ConstruccionEnInforme(construcciones.get(i), listaNumeroDeConstrucciones.get(i));
+        var total = 0;
+        for (int i = 0; i < this.construcciones.size(); i++) {
+             var construccionEnInforme = new ConstruccionEnInforme(this.construcciones.get(i).getNombre().getValue(), listaNumeroDeConstrucciones.get(i));
              construccionesEnInforme.add(construccionEnInforme);
              total += listaNumeroDeConstrucciones.get(i);
         }
-        Informe nuevoInforme = new Informe(new Estado(estado), construccionesEnInforme, new Total(total));
-        this.informes.add(nuevoInforme);
 
+        var nuevoInforme = new Informe(new Estado(estado), construccionesEnInforme, new Total(total));
+        this.informes.add(nuevoInforme);
 
         this.generarInforme(estado, nuevoInforme);
     }
 
     private void generarInforme(String estado, Informe nuevoInforme) {
         try {
-            PrintWriter writer = new PrintWriter("src/pruebaTecnicaCoreVida/informes/informe"+nuevoInforme.getId()+".txt", "UTF-8");
+            var writer = new PrintWriter("src/pruebaTecnicaCoreVida/informes/informe"+nuevoInforme.getId()+".txt", "UTF-8");
             writer.println("Construcciones con estado " + estado + ":");
-            for (int i = 0; i < nuevoInforme.getConstruccionesEnInforme().size(); i++) {
-                writer.println(nuevoInforme.getConstruccionesEnInforme().get(i).getConstruccion() + ": " + nuevoInforme.getConstruccionesEnInforme().get(i).getCantidad());
+            for (ConstruccionEnInforme construccion : nuevoInforme.getConstruccionesEnInforme()) {
+                writer.println(construccion.getConstruccion() + ": " + construccion.getCantidad());
             }
             writer.println("Total de construcciones: " + nuevoInforme.getTotal().getValue());
             writer.close();
-            System.out.println("Informe generado exitosamente en el directorio informes");
+            System.out.println("\nInforme generado exitosamente en el directorio informes");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void consultarFechaDeTerminacion(){
+        var formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if(this.ordenes.isEmpty()){
+            System.out.println("\nFecha de terminacion del proyecto: " + this.fechaTerminacion.getValue().format(formato));
+        } else {
+            var ultimaOrden = this.ordenes.get(this.ordenes.size()-1);
+            System.out.println("\nFecha de terminacion del proyecto: " + ultimaOrden.getFechaTerminacion().getValue().format(formato));
+        }
+    }
+
+    public void persistirMateriales(){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/materiales.ddr"))){
+            oos.writeObject(this.materiales);
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void persistirOrdenes(){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/ordenes.ddr"))){
+            oos.writeObject(this.ordenes);
+        }catch (IOException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -219,5 +246,13 @@ public class Ciudadela {
 
     public FechaTerminacion getFechaTerminacion() {
         return fechaTerminacion;
+    }
+
+    public void setOrdenes(List<Orden> ordenes) {
+        this.ordenes = ordenes;
+    }
+
+    public void setInformes(List<Informe> informes) {
+        this.informes = informes;
     }
 }

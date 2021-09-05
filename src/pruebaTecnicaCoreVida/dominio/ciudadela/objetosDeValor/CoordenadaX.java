@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CoordenadaX {
+public class CoordenadaX implements Serializable {
     private final Integer value;
 
     public CoordenadaX(Integer value) {

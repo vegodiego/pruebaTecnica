@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CantidadAdobe {
+public class CantidadAdobe implements Serializable {
     private final Integer value;
 
     public CantidadAdobe(Integer value) {

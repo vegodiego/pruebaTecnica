@@ -1,9 +1,10 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class FechaInicio {
+public class FechaInicio implements Serializable {
     private final LocalDateTime value;
 
     public FechaInicio(LocalDateTime value) {

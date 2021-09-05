@@ -3,7 +3,9 @@ package pruebaTecnicaCoreVida.dominio.ciudadela;
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.Cantidad;
 import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.Nombre;
 
-public class Material {
+import java.io.Serializable;
+
+public class Material implements Serializable {
     private static Integer ultimoId = -1;
 
     private Integer id;

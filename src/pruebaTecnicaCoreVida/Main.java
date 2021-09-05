@@ -3,78 +3,113 @@ package pruebaTecnicaCoreVida;
 import pruebaTecnicaCoreVida.dominio.ciudadela.Ciudadela;
 import pruebaTecnicaCoreVida.dominio.ciudadela.Construccion;
 import pruebaTecnicaCoreVida.dominio.ciudadela.Material;
-import pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor.*;
+import pruebaTecnicaCoreVida.dominio.ciudadela.Orden;
 
+
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //Creacion de la lista de construcciones
-        List<Construccion> construcciones = new ArrayList<>();
-        List<String> nombresDeLasConstrucciones = Arrays.asList("casa", "lago", "cancha de futbol", "edificio", "gimnasio");
-        List<List<Integer>> cantidadDeMaterialPorConstruccion = Arrays.asList(Arrays.asList(100,90,100,50,20),Arrays.asList(20,80,50,60,10), Arrays.asList(20,20,20,20,20), Arrays.asList(200,180,200,100,40), Arrays.asList(50,45,50,25,10));
-        List<Integer> diasPorConstruccion = Arrays.asList(3,2,1,6,2);
 
-        for (int i = 0; i < cantidadDeMaterialPorConstruccion.size() ; i++) {
-            Dias dias = new Dias(diasPorConstruccion.get(i));
-            Nombre nombre = new Nombre(nombresDeLasConstrucciones.get(i));
-            CantidadAdobe cantidadAdobe = new CantidadAdobe(cantidadDeMaterialPorConstruccion.get(i).get(0));
-            CantidadArena cantidadArena = new CantidadArena(cantidadDeMaterialPorConstruccion.get(i).get(1));
-            CantidadCemento cantidadCemento = new CantidadCemento(cantidadDeMaterialPorConstruccion.get(i).get(2));
-            CantidadGrava cantidadGrava = new CantidadGrava(cantidadDeMaterialPorConstruccion.get(i).get(3));
-            CantidadMadera cantidadMadera = new CantidadMadera(cantidadDeMaterialPorConstruccion.get(i).get(4));
-            Construccion construccion = new Construccion(dias, nombre, cantidadAdobe, cantidadArena, cantidadCemento, cantidadGrava, cantidadMadera);
-            construcciones.add(construccion);
+
+        //trayendo las construcciones de datos
+        List<Construccion> construcciones = new ArrayList<>();
+        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/construcciones.ddr"))){
+            while (true){
+                List<Construccion> construccionViejas = ( List<Construccion>) ois.readObject();
+                construcciones = construccionViejas;
+            }
+        }catch (ClassNotFoundException e){
+        }catch (EOFException e){
+        }catch (IOException e){
         }
 
-        //Creacion de la lista de materiales
+        //trayendo los materiales de datos
         List<Material> materiales = new ArrayList<>();
-        List<String> nombresDeLosMateriales = Arrays.asList("cemento", "grava", "arena", "madera", "adobe");
-        List<Integer> cantidadTotalDeLosMateriales = Arrays.asList(500, 500, 500, 500 ,500);
+        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/materiales.ddr"))){
+            while (true){
+                List<Material> materialViejo = (List<Material>) ois.readObject();
+                materiales = materialViejo;
+            }
+        }catch (ClassNotFoundException e){
+        }catch (EOFException e){
+        }catch (IOException e){
+        }
 
-        for (int i = 0; i < cantidadTotalDeLosMateriales.size() ; i++) {
-            Nombre nombre = new Nombre(nombresDeLosMateriales.get(i));
-            Cantidad cantidad = new Cantidad(cantidadTotalDeLosMateriales.get(i));
-            Material material = new Material(nombre, cantidad);
-            materiales.add(material);
+        //trayendo las ordenes antiguas de datos
+        List<Orden> ordenesAntiguas = new ArrayList<>();
+        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/ordenes.ddr"))){
+            while (true){
+                List<Orden> ordenes = (List<Orden>) ois.readObject();
+                ordenesAntiguas = ordenes;
+            }
+        }catch (ClassNotFoundException e){
+        }catch (EOFException e){
+        }catch (IOException e){
         }
 
         //creacion de la ciudadela
         Ciudadela ciudadela = new Ciudadela(construcciones, materiales);
-
-        ciudadela.agregarOrden(0, 100,200);
-
-        System.out.println(ciudadela.getFechaTerminacion().getValue());
-        System.out.println(ciudadela.getMateriales().get(0).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(0).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(1).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(1).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(2).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(2).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(3).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(3).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(4).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(4).getCantidad().getValue());
+        ciudadela.setOrdenes(ordenesAntiguas);
 
 
-        ciudadela.agregarOrden(0, 101,201);
+        //menu
+        Scanner in = new Scanner(System.in);
 
-        System.out.println(ciudadela.getFechaTerminacion().getValue());
-        System.out.println(ciudadela.getMateriales().get(0).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(0).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(1).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(1).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(2).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(2).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(3).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(3).getCantidad().getValue());
-        System.out.println(ciudadela.getMateriales().get(4).getNombre().getValue());
-        System.out.println(ciudadela.getMateriales().get(4).getCantidad().getValue());
+        boolean salir = false;
+        String opcion;
 
-        ciudadela.actualizarEstados();
+        while(!salir){
 
-        ciudadela.agregarInforme("4");
+            System.out.println("\n****** CIUDADELA DEL FUTURO ********\n\n1-CREAR SOLICITUD DE CONSTRUCCION\n" +
+                    "2-ACTUALIZAR ESTADO DE LAS ORDENES\n3-AVERIGUAR FECHA DE TERMINACION DE LA OBRA\n4-GENERAR INFOMRE DE CONSTRUCCIONES PENDIENTES\n5-GENERAR INFOMRE DE CONSTRUCCIONES EN PROGRESO\n" +
+                    "6-GENERAR INFOMRE DE CONSTRUCCIONES FINALIZADAS\n7-SALIR\n");
+
+            System.out.print("Ingrese una de las opciones del menu: ");
+            opcion = in.nextLine();
+
+            switch (opcion) {
+                case "1":
+                    System.out.print("Ingrese el numero del tipo de construccion (0-casa, 1-lago, 2-cancha de futbol, 3-edificio, 4-gimnasio): ");
+                    String construccionId = in.nextLine();
+                    System.out.print("Ingrese la coordenada X: ");
+                    String coordenadaX = in.nextLine();
+                    System.out.print("Ingrese la coordenada y: ");
+                    String coordenadaY = in.nextLine();
+
+                    ciudadela.agregarOrden( Integer.parseInt(construccionId), Integer.parseInt(coordenadaX),Integer.parseInt(coordenadaY));
+                    break;
+                case "2":
+                    ciudadela.actualizarEstados();
+                    break;
+                case "3":
+                    ciudadela.consultarFechaDeTerminacion();
+                    break;
+                case "4":
+                    ciudadela.agregarInforme("4");
+                    break;
+                case "5":
+                    ciudadela.agregarInforme("5");
+                    break;
+                case "6":
+                    ciudadela.agregarInforme("6");
+                    break;
+                case "7":
+                    salir=true;
+                    System.out.println("\n¡HASTA PRONTO!");
+                    ciudadela.persistirMateriales();
+                    ciudadela.persistirOrdenes();
+                    break;
+                default:
+                    System.out.println("\nOPCION INCORRECTA");
+            }
+
+        }
     }
 }

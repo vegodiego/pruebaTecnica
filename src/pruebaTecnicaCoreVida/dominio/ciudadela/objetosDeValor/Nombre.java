@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Nombre {
+public class Nombre implements Serializable {
     private final String value;
 
     public Nombre(String value) {

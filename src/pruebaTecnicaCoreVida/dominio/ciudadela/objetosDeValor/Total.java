@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Total {
+public class Total implements Serializable {
     private final Integer value;
 
     public Total(Integer value) {

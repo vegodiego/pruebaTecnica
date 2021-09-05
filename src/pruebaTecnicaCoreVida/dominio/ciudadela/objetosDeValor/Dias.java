@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Dias {
+public class Dias implements Serializable {
     private final Integer value;
 
     public Dias(Integer value) {

@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ConstruccionEnInforme {
+public class ConstruccionEnInforme implements Serializable {
     private final String construccion;
     private final Integer cantidad;
 

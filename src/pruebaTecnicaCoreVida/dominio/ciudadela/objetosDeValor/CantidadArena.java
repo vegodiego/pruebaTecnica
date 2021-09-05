@@ -1,8 +1,9 @@
 package pruebaTecnicaCoreVida.dominio.ciudadela.objetosDeValor;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CantidadArena {
+public class CantidadArena implements Serializable {
     private final Integer value;
 
     public CantidadArena(Integer value) {
