@@ -76,13 +76,42 @@ public class Main {
 
             switch (opcion) {
                 case "1":
-                    System.out.print("Ingrese el numero del tipo de construccion (0-casa, 1-lago, 2-cancha de futbol, 3-edificio, 4-gimnasio): ");
-                    String construccionId = in.nextLine();
-                    System.out.print("Ingrese la coordenada X: ");
-                    String coordenadaX = in.nextLine();
-                    System.out.print("Ingrese la coordenada y: ");
-                    String coordenadaY = in.nextLine();
 
+                    boolean construccionIdValido = false;
+                    String construccionId = "";
+                    while (!construccionIdValido){
+                        System.out.print("Ingrese el numero del tipo de construccion (0-casa, 1-lago, 2-cancha de futbol, 3-edificio, 4-gimnasio): ");
+                        construccionId = in.nextLine();
+                        if(construccionId.matches("[0|1|2|3|4]")){
+                            construccionIdValido = true;
+                        }else{
+                            System.out.println("Ingreso invalido");
+                        }
+                    }
+
+                    boolean coordenadaXValida = false;
+                    String coordenadaX = "";
+                    while (!coordenadaXValida){
+                        System.out.print("Ingrese la coordenada X: ");
+                        coordenadaX = in.nextLine();
+                        if(coordenadaX.matches("^[\\d]*$")){
+                            coordenadaXValida = true;
+                        }else{
+                            System.out.println("Ingreso invalido");
+                        }
+                    }
+
+                    boolean coordenadaYValida = false;
+                    String coordenadaY = "";
+                    while (!coordenadaYValida){
+                        System.out.print("Ingrese la coordenada Y: ");
+                        coordenadaY = in.nextLine();
+                        if(coordenadaY.matches("^[\\d]*$")){
+                            coordenadaYValida = true;
+                        }else{
+                            System.out.println("Ingreso invalido");
+                        }
+                    }
                     ciudadela.agregarOrden( Integer.parseInt(construccionId), Integer.parseInt(coordenadaX),Integer.parseInt(coordenadaY));
                     break;
                 case "2":

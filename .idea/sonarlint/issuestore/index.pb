@@ -17,8 +17,6 @@ u
 Esrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/Total.java,3\9\3979760b7066ee3d538bebc92e9aee0fc7025cee
 …
 Usrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/ConstruccionEnInforme.java,d\5\d5ea8e1f963bedece6f592a993db0e75a38304e6
-v
-Fsrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/Estado.java,2\6\261dd3a9fd4e868d4e844a93a38acb0c6f90f34b
 {
 Ksrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/FechaInicio.java,6\1\6128b63a0c7a322130b505607fade75e679f77b3
 €
