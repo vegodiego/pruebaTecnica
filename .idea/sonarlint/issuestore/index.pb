@@ -27,3 +27,5 @@ Ksrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/CoordenadaX.java,b\
 Ksrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/CoordenadaY.java,b\a\ba60d693afb93f5f1070c0f4bdf29de31a2613ba
 x
 Hsrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/Cantidad.java,1\8\187128486ca98383494b9c2db83e018ce93dff1d
+f
+6src/pruebaTecnicaCoreVida/dominio/ciudadela/Orden.java,3\9\39307c3e2efdf3cd4fccfcb42f5a2c4b5b509c4b
