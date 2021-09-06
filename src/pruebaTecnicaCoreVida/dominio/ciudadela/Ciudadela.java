@@ -56,18 +56,12 @@ public class Ciudadela {
     }
 
     private Boolean validarCantidadDeMaterial(Construccion construccion){
-        if(construccion.getCantidadCemento().getValue() <= this.materiales.get(0).getCantidad().getValue() && construccion.getCantidadGrava().getValue() <= this.materiales.get(1).getCantidad().getValue() && construccion.getCantidadArena().getValue() <= this.materiales.get(2).getCantidad().getValue() && construccion.getCantidadMadera().getValue() <= this.materiales.get(3).getCantidad().getValue() && construccion.getCantidadAdobe().getValue() <= this.materiales.get(4).getCantidad().getValue()){
-            return true;
-        }
-        return  false;
+        return construccion.getCantidadCemento().getValue() <= this.materiales.get(0).getCantidad().getValue() && construccion.getCantidadGrava().getValue() <= this.materiales.get(1).getCantidad().getValue() && construccion.getCantidadArena().getValue() <= this.materiales.get(2).getCantidad().getValue() && construccion.getCantidadMadera().getValue() <= this.materiales.get(3).getCantidad().getValue() && construccion.getCantidadAdobe().getValue() <= this.materiales.get(4).getCantidad().getValue();
     }
 
     private Boolean validarCoordenadas(int coordenadasX, int coordenadasY){
         List<Orden> orden = this.ordenes.stream().filter(i -> i.getCoordenadaX().getValue() == coordenadasX || i.getCoordenadaY().getValue() == coordenadasY ).collect(Collectors.toList());
-        if(orden.isEmpty()){
-            return true;
-        }
-        return false;
+        return orden.isEmpty();
     }
 
     private LocalDateTime crearFechaDeInicioDeLaOrden(){
@@ -208,7 +202,7 @@ public class Ciudadela {
     }
 
     public void persistirMateriales(){
-        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/materiales.ddr"))){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/ficheros/materiales.ddr"))){
             oos.writeObject(this.materiales);
         }catch (IOException e){
             System.out.println(e.getMessage());
@@ -216,7 +210,7 @@ public class Ciudadela {
     }
 
     public void persistirOrdenes(){
-        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/ordenes.ddr"))){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/ficheros/ordenes.ddr"))){
             oos.writeObject(this.ordenes);
         }catch (IOException e){
             System.out.println(e.getMessage());
@@ -224,13 +218,12 @@ public class Ciudadela {
     }
 
     public void persistirInformes(){
-        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/informes.ddr"))){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/ficheros/informes.ddr"))){
             oos.writeObject(this.informes);
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
     }
-
 
     public Integer getId() {
         return id;
@@ -258,6 +251,7 @@ public class Ciudadela {
 
     public void setOrdenes(List<Orden> ordenes) {
         this.ordenes = ordenes;
+
         if(!this.ordenes.isEmpty()){
             this.ordenes.get(this.ordenes.size()-1).setUltimoId(this.ordenes.size()-1);
         }
@@ -265,6 +259,7 @@ public class Ciudadela {
 
     public void setInformes(List<Informe> informes) {
         this.informes = informes;
+
         if(!this.informes.isEmpty()){
             this.informes.get(this.informes.size()-1).setUltimoId(this.informes.size()-1);
         }

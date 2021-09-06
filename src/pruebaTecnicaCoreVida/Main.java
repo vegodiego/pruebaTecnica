@@ -1,73 +1,25 @@
 package pruebaTecnicaCoreVida;
 
+import pruebaTecnicaCoreVida.datos.InformacionPersistida.InformacionPersistida;
 import pruebaTecnicaCoreVida.dominio.ciudadela.*;
 
-
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        //Se trae la informacion persistida
+        InformacionPersistida informacionPersistida = new InformacionPersistida();
+        List<Construccion> construcciones = informacionPersistida.getConstrucciones();
+        List<Material> materiales = informacionPersistida.obtenerMateriales();
+        List<Orden> ordenes = informacionPersistida.getOrdenes();
+        List<Informe> informes = informacionPersistida.getInformes();
 
-        //trayendo las construcciones de datos
-        List<Construccion> construcciones = new ArrayList<>();
-        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/construcciones.ddr"))){
-            while (true){
-                List<Construccion> construccionViejas = ( List<Construccion>) ois.readObject();
-                construcciones = construccionViejas;
-            }
-        }catch (ClassNotFoundException e){
-        }catch (EOFException e){
-        }catch (IOException e){
-        }
-
-        //trayendo los materiales de datos
-        List<Material> materiales = new ArrayList<>();
-        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/materiales.ddr"))){
-            while (true){
-                List<Material> materialViejo = (List<Material>) ois.readObject();
-                materiales = materialViejo;
-            }
-        }catch (ClassNotFoundException e){
-        }catch (EOFException e){
-        }catch (IOException e){
-        }
-
-        //trayendo las ordenes antiguas de datos
-        List<Orden> ordenesAntiguas = new ArrayList<>();
-        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/ordenes.ddr"))){
-            while (true){
-                List<Orden> ordenes = (List<Orden>) ois.readObject();
-                ordenesAntiguas = ordenes;
-            }
-        }catch (ClassNotFoundException e){
-        }catch (EOFException e){
-        }catch (IOException e){
-        }
-
-        //trayendo los informes antiguos de datos
-        List<Informe> informesAntiguos = new ArrayList<>();
-        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/informes.ddr"))){
-            while (true){
-                List<Informe> informes = (List<Informe>) ois.readObject();
-                informesAntiguos = informes;
-            }
-        }catch (ClassNotFoundException e){
-        }catch (EOFException e){
-        }catch (IOException e){
-        }
-
-        //creacion de la ciudadela
+        //creacion de la ciudadela con la informacion persistida
         Ciudadela ciudadela = new Ciudadela(construcciones, materiales);
-        ciudadela.setOrdenes(ordenesAntiguas);
-        ciudadela.setInformes(informesAntiguos);
-
+        ciudadela.setOrdenes(ordenes);
+        ciudadela.setInformes(informes);
 
         //menu
         Scanner in = new Scanner(System.in);

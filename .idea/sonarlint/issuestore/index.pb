@@ -25,3 +25,5 @@ Psrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/FechaTerminacion.jav
 Ksrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/CoordenadaX.java,b\5\b59a9151e62a2e2b0222090244881cbb33fd8416
 {
 Ksrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/CoordenadaY.java,b\a\ba60d693afb93f5f1070c0f4bdf29de31a2613ba
+x
+Hsrc/pruebaTecnicaCoreVida/dominio/ciudadela/objetosDeValor/Cantidad.java,1\8\187128486ca98383494b9c2db83e018ce93dff1d

@@ -74,7 +74,7 @@ public class CiudadelatTest {
         assertEquals(esperado,resultado);
     }
 
-    //Probar desde las 6 de la tarde
+    //Probar despues las 6 de la tarde
     @Test
     public void testActualizarEstadosEnLaNoche(){
         List<Orden> ordenes = Arrays.asList(new Orden(0, new CoordenadaX(100), new CoordenadaY(200), new FechaInicio(LocalDateTime.now()), new FechaTerminacion(LocalDateTime.now())));
