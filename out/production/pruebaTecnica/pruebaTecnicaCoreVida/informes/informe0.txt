@@ -1,7 +1,0 @@
-Construcciones con estado pendiente:
-casa: 1
-lago: 0
-cancha de futbol: 0
-edificio: 0
-gimnasio: 0
-Total de construcciones: 1

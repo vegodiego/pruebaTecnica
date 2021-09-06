@@ -223,6 +223,14 @@ public class Ciudadela {
         }
     }
 
+    public void persistirInformes(){
+        try (ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream("src/pruebaTecnicaCoreVida/datos/informes.ddr"))){
+            oos.writeObject(this.informes);
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public Integer getId() {
         return id;
@@ -250,9 +258,15 @@ public class Ciudadela {
 
     public void setOrdenes(List<Orden> ordenes) {
         this.ordenes = ordenes;
+        if(!this.ordenes.isEmpty()){
+            this.ordenes.get(this.ordenes.size()-1).setUltimoId(this.ordenes.size()-1);
+        }
     }
 
     public void setInformes(List<Informe> informes) {
         this.informes = informes;
+        if(!this.informes.isEmpty()){
+            this.informes.get(this.informes.size()-1).setUltimoId(this.informes.size()-1);
+        }
     }
 }

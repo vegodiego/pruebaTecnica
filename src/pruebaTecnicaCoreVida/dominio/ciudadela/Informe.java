@@ -42,4 +42,8 @@ public class Informe implements Serializable {
     public static Integer getUltimoId() {
         return ultimoId;
     }
+
+    public static void setUltimoId(Integer ultimoId) {
+        Informe.ultimoId = ultimoId;
+    }
 }

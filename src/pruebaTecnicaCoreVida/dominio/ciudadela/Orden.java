@@ -57,4 +57,8 @@ public class Orden implements Serializable {
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
+    public static void setUltimoId(Integer ultimoId) {
+        Orden.ultimoId = ultimoId;
+    }
 }

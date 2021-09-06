@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CiudadelatTest {
-
     Construccion construccion1 = new Construccion(new Dias(3), new Nombre("casa"), new CantidadAdobe(100),new CantidadArena(90), new CantidadCemento(100), new CantidadGrava(50), new CantidadMadera(20));
     Construccion construccion2 = new Construccion(new Dias(2), new Nombre("lago"), new CantidadAdobe(20),new CantidadArena(80), new CantidadCemento(50), new CantidadGrava(60), new CantidadMadera(10));
     Construccion construccion3 = new Construccion(new Dias(1), new Nombre("cancha de futbol"), new CantidadAdobe(20),new CantidadArena(20), new CantidadCemento(20), new CantidadGrava(20), new CantidadMadera(20));
@@ -90,7 +89,7 @@ public class CiudadelatTest {
     }
 
     @Test
-    public void crearInforme(){
+    public void testCrearInforme(){
         List<Orden> ordenes = Arrays.asList(new Orden(0, new CoordenadaX(100), new CoordenadaY(200), new FechaInicio(LocalDateTime.now()), new FechaTerminacion(LocalDateTime.now())));
         ciudadela.setOrdenes(ordenes);
 
@@ -103,14 +102,14 @@ public class CiudadelatTest {
     }
 
     @Test
-    public void consultarFechaDeTerminacion(){
+    public void testConsultarFechaDeTerminacion(){
         var formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         ciudadela.agregarOrden(0,100,200);
         ciudadela.consultarFechaDeTerminacion();
 
         String resultado = ciudadela.getFechaTerminacion().getValue().format(formato);
-        String esperado = LocalDateTime.now().plusDays(5).format(formato);;
+        String esperado = LocalDateTime.now().plusDays(5).format(formato);
 
         assertEquals(esperado,resultado);
     }

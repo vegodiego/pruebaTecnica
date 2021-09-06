@@ -1,9 +1,6 @@
 package pruebaTecnicaCoreVida;
 
-import pruebaTecnicaCoreVida.dominio.ciudadela.Ciudadela;
-import pruebaTecnicaCoreVida.dominio.ciudadela.Construccion;
-import pruebaTecnicaCoreVida.dominio.ciudadela.Material;
-import pruebaTecnicaCoreVida.dominio.ciudadela.Orden;
+import pruebaTecnicaCoreVida.dominio.ciudadela.*;
 
 
 import java.io.EOFException;
@@ -54,9 +51,22 @@ public class Main {
         }catch (IOException e){
         }
 
+        //trayendo los informes antiguos de datos
+        List<Informe> informesAntiguos = new ArrayList<>();
+        try (ObjectInputStream ois=new ObjectInputStream(new FileInputStream("src/pruebaTecnicaCoreVida/datos/informes.ddr"))){
+            while (true){
+                List<Informe> informes = (List<Informe>) ois.readObject();
+                informesAntiguos = informes;
+            }
+        }catch (ClassNotFoundException e){
+        }catch (EOFException e){
+        }catch (IOException e){
+        }
+
         //creacion de la ciudadela
         Ciudadela ciudadela = new Ciudadela(construcciones, materiales);
         ciudadela.setOrdenes(ordenesAntiguas);
+        ciudadela.setInformes(informesAntiguos);
 
 
         //menu
@@ -134,6 +144,7 @@ public class Main {
                     System.out.println("\n¡HASTA PRONTO!");
                     ciudadela.persistirMateriales();
                     ciudadela.persistirOrdenes();
+                    ciudadela.persistirInformes();
                     break;
                 default:
                     System.out.println("\nOPCION INCORRECTA");
